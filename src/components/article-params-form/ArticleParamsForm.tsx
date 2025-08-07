@@ -35,37 +35,10 @@ const {fontFamilyOption,
 	contentWidth
 } = formSettings;
 
-//значения в плейсходерах формы
-const dataFontFamilyPlaceholder = fontFamilyOption?.title || fontFamilyOptions[0]?.title;
-const dataFontColorPlaceholder = fontColor?.title || fontColors[0]?.title;
-const dataBackgroundColorPlaceholder = backgroundColor?.title || backgroundColors[0]?.title;
-const dataContentWidthPlaceholder = contentWidth?.title || contentWidthArr[0]?.title;
-
 
 //изменяем настройки
 const updateFormSettings = (newSettings: Partial<ArticleStateType>) => {
 	setFormSettings((prev) => ({...prev, ...newSettings}));
-}
-
-//изменяем поля формы
-const handleChangeFont = (newValue: OptionType) => {
-  updateFormSettings({ fontFamilyOption: newValue });
-}
-
-const handleChangeFontSize = (newValue: OptionType) => {
-  updateFormSettings({ fontSizeOption: newValue });
-}
-
-const handleChangeFontColor = (newValue: OptionType) => {
-  updateFormSettings({ fontColor: newValue });
-}
-
-const handleChangeBackgroundColor = (newValue: OptionType) => {
-  updateFormSettings({ backgroundColor: newValue });
-}
-
-const handleChangeContentWidth = (newValue: OptionType) => {
-  updateFormSettings({ contentWidth: newValue });
 }
 
 
@@ -91,8 +64,7 @@ const handleSubmitSettings = (evt: React.FormEvent) => {
 	return (
 		<>
 		<ArrowButton isOpen={isOpen} onClick={toggleParamsForm} />
-			{isOpen &&(
-			<aside className={clsx(styles.container, {
+			{(<aside className={clsx(styles.container, {
 				[styles.container_open]: isOpen
 			})}>
 				<form className={styles.form} onSubmit={handleSubmitSettings} ref={refParamsForm} >
@@ -104,22 +76,23 @@ const handleSubmitSettings = (evt: React.FormEvent) => {
 					title='шрифт'
 					selected={fontFamilyOption}
 					options={fontFamilyOptions}
-					placeholder={dataFontFamilyPlaceholder}
-					onChange={handleChangeFont}/>
+					onChange={(newValue: OptionType) =>
+    					updateFormSettings({ fontFamilyOption: newValue })}/>
 
 					<RadioGroup 
 					name={'radioGroup'}
 					options={fontSizeOptions}
 					selected={fontSizeOption}
-					onChange={handleChangeFontSize}
+					onChange={(newValue: OptionType) =>
+    					updateFormSettings({ fontSizeOption: newValue })}
 					title='рАЗМЕР шрифта'/>
 
 					<Select
 					title='Цвет шрифта'
 					selected={fontColor}
 					options={fontColors}
-					placeholder={dataFontColorPlaceholder}
-					onChange={handleChangeFontColor}/>
+					onChange={(newValue: OptionType) => 
+  						updateFormSettings({ fontColor: newValue })}/>
 
 					<Separator />
 
@@ -127,15 +100,15 @@ const handleSubmitSettings = (evt: React.FormEvent) => {
 					title='Цвет фона'
 					selected={backgroundColor}
 					options={backgroundColors}
-					placeholder={dataBackgroundColorPlaceholder}
-					onChange={handleChangeBackgroundColor}/>
+					onChange={(newValue: OptionType) => 
+					    updateFormSettings({ backgroundColor: newValue })}/>
 
 					<Select
 					title='Ширина контента'
 					selected={contentWidth}
 					options={contentWidthArr}
-					placeholder={dataContentWidthPlaceholder}
-					onChange={handleChangeContentWidth}/>
+					onChange={(newValue: OptionType) => 
+  updateFormSettings({ contentWidth: newValue })}/>
 
 					<div className={styles.bottomContainer}>
 
